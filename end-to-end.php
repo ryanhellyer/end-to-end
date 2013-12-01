@@ -1,8 +1,8 @@
 <?php
 /*
 Plugin Name: WP End-to End
-Plugin URI: http://geek.ryanhellyer.net/products/secure-content/
-Description: Secures content via JS and password
+Plugin URI: http://geek.ryanhellyer.net/products/end-to-end/
+Description: Provides true end to end encryption in WordPress
 
 Author: Ryan Hellyer
 Version: 1.0
@@ -10,18 +10,8 @@ Author URI: http://geek.ryanhellyer.net/
 
 Copyright 2013 Ryan Hellyer
 
-
-
-
-
-
-BASED ON CODE FROM HERE ... http://www.enetplanet.com/enc/
-
-
-
-
-
-
+The encryption functionality is provided by Chris Veness (www.movable-type.co.uk/tea-block.html)
+and based on work by David Wheeler and Roger Needham of Cambridge University (http://www.ftp.cl.cam.ac.uk/ftp/papers/djw-rmn/djw-rmn-tea.html)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -57,18 +47,27 @@ class Secure_Content {
 	public function encryption_script() {
 		global $post;
 
-		// The main script which does all the grunt work
+		// The main AES encryption script which does all the grunt work
 		wp_enqueue_script(
-			'tea-encryption',
-			plugin_dir_url( __FILE__ ) . 'tea-encryption.js',
+			'aes-encryption',
+			plugin_dir_url( __FILE__ ) . 'js/aes-encryption.js',
 			array( 'jquery' ),
+			'1.0',
+			true
+		);
+
+		// Implement end to end encryption
+		wp_enqueue_script(
+			'end-to-end-init',
+			plugin_dir_url( __FILE__ ) . 'js/init.js',
+			array( 'jquery', 'aes-encryption' ),
 			'1.0',
 			true
 		);
 
 		// If encryption has been set previously, then set variable so that JS knows what to do
 		if ( true == get_post_meta( $post->ID, '_secure_content' ) ) {
-			wp_localize_script( 'tea-encryption', 'encryption_set', '1' );
+			wp_localize_script( 'aes-encryption', 'encryption_set', '1' );
 		}
 	}
 
@@ -102,8 +101,8 @@ class Secure_Content_Frontend extends Secure_Content {
 		// If encryption has been set previously, then set variable so that JS knows what to do
 		if ( true == get_post_meta( get_the_ID(), '_secure_content' ) ) {
 			$this->encryption_script();
-			wp_localize_script( 'tea-encryption', 'encryption_set', '1' );
-			wp_localize_script( 'tea-encryption', 'encryption_frontend', '1' );
+			wp_localize_script( 'aes-encryption', 'encryption_set', '1' );
+			wp_localize_script( 'aes-encryption', 'encryption_frontend', '1' );
 
 			// Need to be on single post page to decrypt (avoids needing to deal with decrypting multiple boxes on same page)
 			if ( ! is_singular() ) {
@@ -187,6 +186,7 @@ class Secure_Content_Admin extends Secure_Content {
 			delete_post_meta( $post_id, '_secure_content' );
 		}
 
+		return $post_id;
 	}
 
 }
