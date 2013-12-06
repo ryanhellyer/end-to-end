@@ -22,7 +22,6 @@ jQuery(function($){
 
 		// If encryption key has been previously set, then ... 
 		if (true == encryption_set) {
-
 			// Decrypt from temporary storage
 			$('#encryption-key').keyup(function() {
 				var encryption_key = $('#encryption-key').val();
