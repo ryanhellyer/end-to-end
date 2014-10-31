@@ -5,13 +5,12 @@ Plugin URI: http://geek.ryanhellyer.net/products/end-to-end/
 Description: Provides true end to end encryption in WordPress
 
 Author: Ryan Hellyer
-Version: 1.0
+Version: 1.1.2
 Author URI: http://geek.ryanhellyer.net/
 
 Copyright 2013 Ryan Hellyer
 
-The encryption functionality is provided by Chris Veness (www.movable-type.co.uk/tea-block.html)
-and based on work by David Wheeler and Roger Needham of Cambridge University (http://www.ftp.cl.cam.ac.uk/ftp/papers/djw-rmn/djw-rmn-tea.html)
+The encryption functionality is from Chris Veness (http://www.movable-type.co.uk/scripts/aes.html)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

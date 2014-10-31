@@ -9,6 +9,15 @@
  */
 class End2End {
 
+	protected $no_script_message;
+
+	/**
+	 * Class constructor
+	 */
+	public function __construct() {
+		$this->no_script_message = __( 'Sorry, but you need JavaScript turned on to enter an encryption key for this content.', 'end2end' );
+	}
+
 	/*
 	 * Load scripts
 	 *
@@ -28,16 +37,19 @@ class End2End {
 
 		// Implement end to end encryption
 		wp_enqueue_script(
-			'end-to-end-init',
+			'end2end-init',
 			END2END_URL . 'js/init.js',
 			array( 'jquery', 'aes-encryption' ),
-			'1.0',
+			'1.4',
 			true
 		);
 
+		// Add label
+		wp_localize_script( 'aes-encryption', 'end2end_label', __( 'Please enter the encryption key', 'end2end' ) );
+
 		// If encryption has been set previously, then set variable so that JS knows what to do
 		if ( true == get_post_meta( $post->ID, '_end2end' ) ) {
-			wp_localize_script( 'aes-encryption', 'encryption_set', '1' );
+			wp_localize_script( 'aes-encryption', 'end2end_set', '1' );
 		}
 	}
 

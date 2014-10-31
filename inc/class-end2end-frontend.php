@@ -3,7 +3,7 @@
 /**
  * End to End Frontend
  * 
- * @copyright Copyright (c), Ryan Hellyer
+ * @copyright Copyright (c), Ryan Hellyerp_loca
  * @author Ryan Hellyer <ryanhellyer@gmail.com>
  * @since 1.0
  */
@@ -13,6 +13,7 @@ class End2End_Frontend extends End2End {
 	 * Class constructor
 	 */
 	public function __construct() {
+		parent::__construct(); 
 		add_action( 'template_redirect', array( $this, 'filters' ) );
 	}
 
@@ -43,25 +44,27 @@ class End2End_Frontend extends End2End {
 		// If encryption has been set previously, then set variable so that JS knows what to do
 		if ( true == get_post_meta( get_the_ID(), '_end2end' ) ) {
 			$this->encryption_script();
-			wp_localize_script( 'aes-encryption', 'encryption_set', '1' );
-			wp_localize_script( 'aes-encryption', 'encryption_frontend', '1' );
+			wp_localize_script( 'aes-encryption', 'end2end_set', '1' );
+			wp_localize_script( 'aes-encryption', 'end2end_frontend', '1' );
 
 			// Need to be on single post page to decrypt (avoids needing to deal with decrypting multiple boxes on same page)
 			if ( ! is_singular() ) {
 				return __( 'Encrypted content, please visit single post to decrypt', 'end2end' );
 			}
+		} else {
+			return $content;
 		}
 
 		$content = '
-		<form id="secure-content">
-			<p>
-				<label for="encryption-key">' . __( 'Please enter the encryption key', 'end2end' ) . '</label>
-				<input id="encryption-key" type="password"/>
-			</p>
+		<noscript>
+			<p>' . esc_html( $this->no_script_message ) . '</p>
+		</noscript>
+		<div id="end2end-frontend-form"></div>
+		<div id="end2end-text">' . esc_html( $content ) . '</div>
+		<div style="display:none" id="end2end-temporary-storage">' . esc_html( $content ) . '</div>
+		<script>
 
-			<div id="secure-content-text">' . esc_html( $content ) . '</div>
-			<div style="display:none" id="secure-content-temporary-storage">' . esc_html( $content ) . '</div>
-		</form>
+		</script>
 		';
 
 		return $content;
