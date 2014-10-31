@@ -5,7 +5,7 @@ Plugin URI: http://geek.ryanhellyer.net/products/end-to-end/
 Description: Provides true end to end encryption in WordPress
 
 Author: Ryan Hellyer
-Version: 1.1.2
+Version: 1.1.3
 Author URI: http://geek.ryanhellyer.net/
 
 Copyright 2013 Ryan Hellyer
@@ -35,5 +35,8 @@ define( 'END2END_URL', plugin_dir_url( __FILE__ ) );
  * Load and instantiate the classes
  */
 require( 'inc/class-end2end.php' );
-require( 'inc/class-end2end-frontend.php' );
-require( 'inc/class-end2end-admin.php' );
+if ( is_admin() ) {
+	require( 'inc/class-end2end-admin.php' );	
+} else {
+	require( 'inc/class-end2end-frontend.php' );
+}
