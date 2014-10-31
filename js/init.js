@@ -5,7 +5,7 @@ jQuery(function($){
 	if (typeof end2end_frontend == 'undefined') {
 
 		// Inject the form into the page
-		var end2end_form = '<label>'+end2end_label+'</label> <input type="password" id="end2end-key" name="end2end-key" /><div style="display:none" id="end2end-temporary-storage"></div>';
+		var end2end_form = '<label>'+end2end_label+'</label> <input type="password" id="end2end-key" name="end2end-key" /><input id="end2end-submit" class="preview button" type="submit" id="end2end-submit" value="Decrypt" /><div style="display:none" id="end2end-temporary-storage"></div>';
 		$("#end2end-backend-form").html(end2end_form);
 
 		// Set temporary storage area
@@ -16,7 +16,10 @@ jQuery(function($){
 		if (typeof end2end_set != 'undefined') {
 			if (true == end2end_set) {
 				// Decrypt from temporary storage
-				$('#end2end-key').keyup(function() {
+
+end2end-submit
+z
+				$('#end2end-key').onclick(     keyup(function() {
 					var end2end_key = $('#end2end-key').val();
 					var end2end_text = $('#end2end-temporary-storage').html();
 					var end2end_blob = Aes.Ctr.decrypt(end2end_text, end2end_key, 256)
