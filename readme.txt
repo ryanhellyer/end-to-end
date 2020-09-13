@@ -2,7 +2,7 @@
 Contributors: ryanhellyer
 Tags: encryption
 Requires at least: 4.0
-Stable tag: 1.1.3
+Stable tag: 1.2
 License: GPLv2 or later
 
 Provides true end to end encryption for WordPress. An encrypted data blob will be sent from your browser back to WordPress and can only be decrypted through the use of your unique (per-page) encryption key (password).
@@ -31,6 +31,9 @@ It is critical to ensure that you do not forget the keys. If you forget them, yo
 
 
 == Changelog ==
+
+= 1.2 =
+* Fixed JS bug which caused a breakage due to a WordPress core change.
 
 = 1.1.3 =
 * Fixed JS bug in backend. Thanks to Robert for reporting the bug.

@@ -27,6 +27,7 @@ jQuery(function($){
 					var end2end_text = $('#end2end-temporary-storage').html();
 					var end2end_blob = Aes.Ctr.decrypt(end2end_text, end2end_key, 256)
 					$('#content').attr('value', end2end_blob);
+					$('#content').html(end2end_blob);
 				});
 			}
 		}
@@ -41,6 +42,7 @@ jQuery(function($){
 				var end2end_text = $('#content').val();
 				var end2end_blob = Aes.Ctr.encrypt(end2end_text, end2end_key, 256)
 				$('#content').attr('value', end2end_blob);
+				$('#content').html(end2end_blob);
 			}
 		});
 
